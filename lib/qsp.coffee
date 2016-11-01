@@ -1,5 +1,7 @@
 {CompositeDrawable, Directory, File} = require 'atom'
 QspFilesView = require './qsp-files-view'
+fs = require 'fs'
+QspDecoder = require './qsp-decoder'
 
 module.exports =
     subscriptions: null
@@ -19,7 +21,7 @@ module.exports =
     decode: () ->
         files = @findQspFiles()
         view = new QspFilesView()
-        view.initialize(files)
+        view.initialize(files, @decodeQspFile)
 
     findQspFiles: (directory) ->
         found = []
@@ -36,3 +38,12 @@ module.exports =
                     found = found.concat(@findQspFiles(entry))
 
         return found
+
+    decodeQspFile: (file) ->
+        console.log file
+        fs.readFile(file.getPath(), (error, data) ->
+            if error
+                console.error error
+                return
+            new QspDecoder(data, file)
+        )

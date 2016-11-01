@@ -2,8 +2,9 @@
 
 module.exports =
 class QspFilesView extends SelectListView
-    initialize: (list) ->
+    initialize: (list, callback) ->
         super
+        @callback = callback
         @setItems(list)
         @storeFocusedElement()
         @panel ?= atom.workspace.addModalPanel(item: this)
@@ -18,6 +19,7 @@ class QspFilesView extends SelectListView
 
     confirmed: (item) ->
         console.log(item);
+        @callback?(item)
         @cancel()
 
     cancelled: ->
