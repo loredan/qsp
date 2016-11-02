@@ -1,0 +1,58 @@
+{
+    "scopeName": "source.qsps",
+    "fileTypes": ["qsps"],
+    "name": "QSP Source",
+    "patterns": [
+        {
+            "name": "comment.line.exclamation.qsps",
+            "begin": "!",
+            "end": "\\n"
+        },
+        {
+            "name": "keyword.control.qsps",
+            "match": "\\b(ACT|ADDLIB|ADDOBJ|ADDQST|AND|ARRCOMP|ARRPOS|ARRSIZE|BCOLOR|CLA|CLEAR|CLOSE|CLR|CLS|CMDCLEAR|CMDCLR|COPYARR|COUNTOBJ|CURLOC|DEBUG|DELACT|DELLIB|DELOBJ|DESC|DISABLESCROLL|DISABLESUBEX|DYNAMIC|DYNEVAL|ELSE|ELSEIF|EXIT|FCOLOR|FREELIB|FSIZE|FUNC|GETOBJ|GOSUB|GOTO|GS|GT|IF|IIF|INCLIB|INPUT|INSTR|ISNUM|ISPLAY|JUMP|KILLALL|KILLOBJ|KILLQST|KILLVAR|LCASE|LCOLOR|LEN|LET|LOC|MAX|MENU|MID|MIN|MOD|MSECSCOUNT|MSG|NL|NOSAVE|OBJ|OPENGAME|OPENQST|OR|PLAY|QSPVER|RAND|REFINT|REPLACE|RGB|RND|SAVEGAME|SELACT|SELOBJ|SETTIMER|SET|SHOWACTS|SHOWINPUT|SHOWOBJS|SHOWSTAT|STRCOMP|STRFIND|STRPOS|TRIM|UCASE|UNSELECT|UNSEL|USEHTML|USER_TEXT|USRTXT|VAL|VIEW|WAIT|XGOTO|XGT|PL|P|STR|NO|act|addlib|addobj|addqst|and|arrcomp|arrpos|arrsize|bcolor|cla|clear|close|clr|cls|cmdclear|cmdclr|copyarr|countobj|curloc|debug|delact|dellib|delobj|desc|disablescroll|disablesubex|dynamic|dyneval|else|elseif|exit|fcolor|freelib|fsize|func|getobj|gosub|goto|gs|gt|if|iif|inclib|input|instr|isnum|isplay|jump|killall|killobj|killqst|killvar|lcase|lcolor|len|let|loc|max|menu|mid|min|mod|msecscount|msg|nl|nosave|obj|opengame|openqst|or|play|qspver|rand|refint|replace|rgb|rnd|savegame|selact|selobj|settimer|set|showacts|showinput|showobjs|showstat|strcomp|strfind|strpos|trim|ucase|unselect|unsel|usehtml|user_text|usrtxt|val|view|wait|xgoto|xgt|pl|p|str|no)\\b|\\$(BACKIMAGE|COUNTER|CURACTS|FNAME|MAINTXT|ONACTSEL|ONGLOAD|ONGSAVE|ONNEWLOC|ONOBJADD|ONOBJDEL|ONOBJSEL|STATTXT|USERCOM|backimage|counter|curacts|fname|maintxt|onactsel|ongload|ongsave|onnewloc|onobjadd|onobjdel|onobjsel|stattxt|usercom)\\b|\\*(CLEAR|CLR|NL|PL|P|clear|clr|nl|pl|p)\\b"
+        },
+        {
+            "name": "string.quoted.single.qsps",
+            "begin": "'",
+            "end": "'",
+            "patterns": [
+                {
+                    "name": "string.interpolated.qsps",
+                    "begin": "<<",
+                    "end": ">>",
+                    "patterns": [
+                        {
+                            "include": "$self"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "string.quoted.double.qsps",
+            "begin": "\"",
+            "end": "\"",
+            "patterns": [
+                {
+                    "name": "string.interpolated.qsps",
+                    "begin": "<<",
+                    "end": ">>",
+                    "patterns": [
+                        {
+                            "include": "$self"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "variable.other.qsps",
+            "match": "\\b([^-!:&=<>\\+*\\/,'\"()\\[\\]\\{}\\s\\d][^-!:&=<>\\+*\\/,'\"()\\[\\]\\{}\\s]*)|\\$([^-!:&=<>\\+*\\/,'\"()\\[\\]\\{}\\s\\d][^-!:&=<>\\+*\\/,'\"()\\[\\]\\{}\\s]*)"
+        },
+        {
+            "name": "keyword.operator.qsps",
+            "match": "\\+|-|\\*|\\/|\\^|=<|=>|<>|=|<=?|>=?|&|!"
+        }
+    ]
+}

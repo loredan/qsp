@@ -111,7 +111,7 @@ class ProjectBuilder
         catch error
 
     createLocation: (location) ->
-        fs.writeFileSync("#{@root.getPath()}/#{location.name}.qspc", location.code, {mode: 0o644})
+        fs.writeFileSync("#{@root.getPath()}/#{location.name}.qsps", location.code, {mode: 0o644})
 
     createDirectoryRecursive: (directory, callback) ->
         if directory.getParent().exists()
