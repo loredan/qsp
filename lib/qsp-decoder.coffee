@@ -1,4 +1,5 @@
-{File} = require 'atom'
+{File, Directory} = require 'atom'
+fs = require 'fs'
 
 module.exports =
 class QspDecoder
@@ -15,16 +16,13 @@ class QspDecoder
         console.log @toString @decode password.line
         locations = @readLine password.next
         locationsNumber = (@toString @decode locations.line).valueOf()
-        console.log locationsNumber
 
         next = locations.next
-        locations = []
+        builder = new ProjectBuilder(@config)
         for i in [0...locationsNumber]
             location = @readLocation next
             next = location.next
-            locations.push location
-
-        console.log locations
+            builder.createLocation location
 
     prepare: ->
         @config = {}
@@ -78,13 +76,13 @@ class QspDecoder
             else
                 return line[line.length - 1] == 10
 
-        while !check() or counter >= @data.length
+        while !check() and counter < @data.length
             line.push(@readSymbol(counter))
             counter += if @config.ucs2le then 2 else 1
             if max and line.length > max
                 break
 
-        line: line[0...if @config.crlf then -2 else -1]
+        line: if line.length > 0 then line[0...if @config.crlf then -2 else -1] else []
         next: counter
 
     readSymbol: (position) ->
@@ -94,20 +92,31 @@ class QspDecoder
 
     decode: (line) ->
         for i in [0...line.length]
-          line[i] += 5
+            line[i] += 5
         return line
 
     toString: (line) ->
-        return String.fromCharCode.apply(@, line)
+        result = ""
+        step = 65535
+        for i in [0...line.length] by step
+            result += String.fromCharCode.apply(@, line[i...i + step])
+        return result
 
 class ProjectBuilder
-    constructor: (config) ->
+    constructor: (@config) ->
         @directoryStack = []
+        @root = new Directory(@config.encodedPath[0...@config.encodedPath.lastIndexOf('.')])
+        try
+            fs.mkdirSync(@root.getPath(), 0o755)
+        catch error
+
+    createLocation: (location) ->
+        fs.writeFileSync("#{@root.getPath()}/#{location.name}.qspc", location.code, {mode: 0o644})
 
     createDirectoryRecursive: (directory, callback) ->
         if directory.getParent().exists()
             that = @
-            directory.create(755).then(() ->
+            directory.create(0o755).then(() ->
                 if that.directoryStack.length > 0
                     that.createDirectoryRecursive(that.directoryStack.pop(), callback)
                 else
@@ -116,3 +125,5 @@ class ProjectBuilder
         else
             @directoryStack.push(directory)
             createDirectoryRecursive(directory.getParent(), callback)
+
+    write: (path, data) ->

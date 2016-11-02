@@ -12,7 +12,7 @@ module.exports =
         @subscriptions.add(atom.commands.add('atom-workspace', {
             'qsp:toggle': () => @toggle(),
             'qsp:decode': () => @decode(),
-            'qsp:stackTest': () => @stackTest(0)
+            'qsp:test': () => @test()
         }))
 
     deactivate: () -> @subscriptions.dispose()
@@ -43,8 +43,5 @@ module.exports =
     decodeQspFile: (file) ->
         new QspDecoder(fs.readFileSync(file.getPath()), file)
 
-    stackTest: (counter) ->
-        try
-            @stackTest(counter + 1)
-        catch error
-            console.log counter
+    test: ->
+        console.log atom.workspace.getActivePaneItem()

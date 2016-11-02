@@ -18,9 +18,8 @@ class QspFilesView extends SelectListView
         @cancel()
 
     confirmed: (item) ->
-        console.log(item);
-        @callback?(item)
         @cancel()
+        @callback?(item)
 
     cancelled: ->
         @panel.hide()

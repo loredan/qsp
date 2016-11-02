@@ -9,7 +9,7 @@
     "quest"
   ],
   "activationCommands": {
-    "atom-workspace": ["qsp:decode", "qsp:stackTest"]
+    "atom-workspace": ["qsp:decode", "qsp:test"]
   },
   "repository": "https://github.com/loredan/qsp",
   "license": "MIT",
